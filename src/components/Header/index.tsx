@@ -7,10 +7,10 @@ const Header = () => (
   <S.Wrapper>
     <Logo />
     <S.Nav>
-      <S.Link to="/">
+      <S.Link to="/" title="Timer">
         <Timer size={24} />
       </S.Link>
-      <S.Link to="/history">
+      <S.Link to="/history" title="Histórico">
         <Scroll size={24} />
       </S.Link>
     </S.Nav>
