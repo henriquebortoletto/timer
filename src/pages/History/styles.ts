@@ -29,10 +29,6 @@ export const Table = styled.table`
   border-collapse: collapse;
 `;
 
-export const TableRow = styled.tr``;
-
-export const TableHead = styled.thead``;
-
 export const TableTh = styled.th`
   font-weight: 700;
   text-align: left;
@@ -53,8 +49,6 @@ export const TableTh = styled.th`
     background-color: ${theme.colors.gray[600]};
   `}
 `;
-
-export const TableBody = styled.tbody``;
 
 export const TableCell = styled.td`
   font-weight: 400;
