@@ -1,7 +1,7 @@
 import * as S from "./styles";
 
 const Logo = () => (
-  <S.Link to="/">
+  <S.Logo to="/">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
@@ -24,7 +24,7 @@ const Logo = () => (
         fill="currentColor"
       />
     </svg>
-  </S.Link>
+  </S.Logo>
 );
 
 export default Logo;

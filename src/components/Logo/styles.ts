@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-export const Link = styled(NavLink)`
+export const Logo = styled(Link)`
   line-height: 0;
 
   ${({ theme }) => css`
