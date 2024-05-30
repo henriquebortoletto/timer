@@ -81,6 +81,11 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [activeCycle]);
 
+  useEffect(() => {
+    if (!activeCycle) return;
+    document.title = `Ignite Timer - ${minutes}:${seconds}`;
+  }, [activeCycle, minutes, seconds]);
+
   const task = watch("task");
   const isSubmitDisabled = !task;
 
