@@ -51,6 +51,8 @@ const Home = () => {
 
     setCycles((state) => [...state, newCycle]);
     setActiveCycleId(createNewCycleId);
+    setAmountSecondsPassed(0);
+
     reset();
   }
 
@@ -65,17 +67,18 @@ const Home = () => {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-  console.log({ minutes, seconds });
-
   useEffect(() => {
     if (!activeCycle) return;
-    setInterval(() => {
+
+    const interval = setInterval(() => {
       const differenceSeconds = differenceInSeconds(
         new Date(),
         activeCycle.startDate
       );
       setAmountSecondsPassed(differenceSeconds);
     }, INTERVAL_SECONDS);
+
+    return () => clearInterval(interval);
   }, [activeCycle]);
 
   const task = watch("task");
