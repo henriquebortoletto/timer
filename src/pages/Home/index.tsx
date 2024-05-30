@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { differenceInSeconds } from "date-fns";
 import { Play } from "@phosphor-icons/react";
 import * as zod from "zod";
 
@@ -20,7 +21,10 @@ interface Cycle {
   id: string;
   task: string;
   minutesAmount: number;
+  startDate: Date;
 }
+
+const INTERVAL_SECONDS = 1000;
 
 const Home = () => {
   const [cycles, setCycles] = useState<Cycle[]>([]);
@@ -42,6 +46,7 @@ const Home = () => {
       id: createNewCycleId,
       task: data.task,
       minutesAmount: data.minutesAmount,
+      startDate: new Date(),
     };
 
     setCycles((state) => [...state, newCycle]);
@@ -61,6 +66,17 @@ const Home = () => {
   const seconds = String(secondsAmount).padStart(2, "0");
 
   console.log({ minutes, seconds });
+
+  useEffect(() => {
+    if (!activeCycle) return;
+    setInterval(() => {
+      const differenceSeconds = differenceInSeconds(
+        new Date(),
+        activeCycle.startDate
+      );
+      setAmountSecondsPassed(differenceSeconds);
+    }, INTERVAL_SECONDS);
+  }, [activeCycle]);
 
   const task = watch("task");
   const isSubmitDisabled = !task;
