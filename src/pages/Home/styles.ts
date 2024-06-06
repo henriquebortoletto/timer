@@ -126,7 +126,7 @@ export const CounterSeparator = styled.div`
   `}
 `;
 
-export const Button = styled.button`
+export const BaseCountDownButton = styled.button`
   font-weight: 700;
   line-height: 2.8rem;
 
@@ -146,15 +146,36 @@ export const Button = styled.button`
 
   ${({ theme }) => css`
     color: ${theme.colors.gray[100]};
-    background-color: ${theme.colors.green[500]};
+  `}
 
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+`;
+
+export const StartCountDownButton = styled(BaseCountDownButton)`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.green[500]};
 
     &:not(:disabled):hover {
       background-color: ${theme.colors.green[700]};
+    }
+  `}
+`;
+
+export const StopCountDownButton = styled(BaseCountDownButton)`
+  ${({ theme }) => css`
+    background-color: ${theme.colors.red[500]};
+
+    &:not(:disabled):hover {
+      background-color: ${theme.colors.red[700]};
+    }
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 2px ${theme.colors.white},
+        0 0 0 5px ${theme.colors.red[500]};
     }
   `}
 `;

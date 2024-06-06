@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { differenceInSeconds } from "date-fns";
-import { Play } from "@phosphor-icons/react";
+import { HandPalm, Play } from "@phosphor-icons/react";
 import * as zod from "zod";
 
 import * as S from "./styles";
@@ -11,7 +11,7 @@ const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Informe a tarefa"),
   minutesAmount: zod
     .number()
-    .min(5, "O ciclo precisa ser de no mínimo de 5 minutos.")
+    .min(1, "O ciclo precisa ser de no mínimo de 5 minutos.")
     .max(60, "O ciclo precisa ser de no máximo de 60 minutos."),
 });
 
@@ -22,6 +22,8 @@ interface Cycle {
   task: string;
   minutesAmount: number;
   startDate: Date;
+  interruptedDate?: Date;
+  finishedDate?: Date;
 }
 
 const INTERVAL_SECONDS = 1000;
@@ -56,6 +58,19 @@ const Home = () => {
     reset();
   }
 
+  function handleInterruptCycle() {
+    setCycles((state) =>
+      state.map((cycle) => {
+        if (cycle.id === activeCycleId) {
+          return { ...cycle, interruptedDate: new Date() };
+        } else {
+          return cycle;
+        }
+      })
+    );
+    setActiveCycleId(null);
+  }
+
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
@@ -75,14 +90,32 @@ const Home = () => {
         new Date(),
         activeCycle.startDate
       );
+
+      if (differenceSeconds >= totalSeconds) {
+        setCycles((state) =>
+          state.map((cycle) => {
+            if (cycle.id === activeCycleId) {
+              return { ...cycle, finishedDate: new Date() };
+            } else {
+              return cycle;
+            }
+          })
+        );
+      }
+
+      if (activeCycle.finishedDate) {
+        clearInterval(interval);
+        setActiveCycleId(null);
+        return;
+      }
+
       setAmountSecondsPassed(differenceSeconds);
     }, INTERVAL_SECONDS);
 
     return () => clearInterval(interval);
-  }, [activeCycle]);
+  }, [activeCycle, totalSeconds, activeCycleId]);
 
   useEffect(() => {
-    if (!activeCycle) return;
     document.title = `Ignite Timer - ${minutes}:${seconds}`;
   }, [activeCycle, minutes, seconds]);
 
@@ -102,6 +135,7 @@ const Home = () => {
             id="task"
             list="task-suggestions"
             placeholder="Dê um nome para o seu projeto"
+            disabled={!!activeCycle}
             {...register("task")}
           />
           <datalist id="task-suggestions">
@@ -119,8 +153,9 @@ const Home = () => {
             id="minutesAmount"
             placeholder="00"
             step={5}
-            min={5}
+            min={1}
             max={60}
+            disabled={!!activeCycle}
             {...register("minutesAmount", { valueAsNumber: true })}
           />
           <span>minutos.</span>
@@ -135,14 +170,21 @@ const Home = () => {
         <S.Counter>{seconds[1]}</S.Counter>
       </S.CountDown>
 
-      <S.Button
-        type="submit"
-        form="submitCountDown"
-        disabled={isSubmitDisabled}
-      >
-        <Play size={24} />
-        Começar
-      </S.Button>
+      {activeCycle ? (
+        <S.StopCountDownButton type="button" onClick={handleInterruptCycle}>
+          <HandPalm size={24} />
+          Interromper
+        </S.StopCountDownButton>
+      ) : (
+        <S.StartCountDownButton
+          type="submit"
+          form="submitCountDown"
+          disabled={isSubmitDisabled}
+        >
+          <Play size={24} />
+          Começar
+        </S.StartCountDownButton>
+      )}
     </S.Wrapper>
   );
 };
