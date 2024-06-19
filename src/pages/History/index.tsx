@@ -1,4 +1,6 @@
 import { useContext } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 import { CyclesContext } from "@/contexts/CyclesContext";
 import * as S from "./styles";
@@ -24,7 +26,12 @@ const History = () => {
               <tr key={cycle.id}>
                 <S.TableCell>{cycle.task}</S.TableCell>
                 <S.TableCell>{cycle.minutesAmount} minutos</S.TableCell>
-                <S.TableCell>{cycle.startDate.toISOString()}</S.TableCell>
+                <S.TableCell>
+                  {formatDistanceToNow(cycle.startDate, {
+                    addSuffix: true,
+                    locale: ptBR,
+                  })}
+                </S.TableCell>
                 <S.TableCell>
                   {cycle.finishedDate && (
                     <S.Status color="green">Concluído</S.Status>
