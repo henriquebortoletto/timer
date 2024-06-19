@@ -33,7 +33,12 @@ const Home = () => {
     },
   });
 
-  const { watch, handleSubmit /** reset */ } = newCycleForm;
+  const { watch, handleSubmit, reset } = newCycleForm;
+
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    createNewCycle(data);
+    reset();
+  }
 
   const task = watch("task");
   const isSubmitDisabled = !task;
@@ -41,7 +46,10 @@ const Home = () => {
   return (
     <S.Wrapper>
       <FormProvider {...newCycleForm}>
-        <S.Form id="submitCountDown" onSubmit={handleSubmit(createNewCycle)}>
+        <S.Form
+          id="submitCountDown"
+          onSubmit={handleSubmit(handleCreateNewCycle)}
+        >
           <NewCycleForm />
         </S.Form>
       </FormProvider>
