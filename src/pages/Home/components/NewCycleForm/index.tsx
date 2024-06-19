@@ -5,7 +5,7 @@ import { CyclesContext } from "@/contexts/CyclesContext";
 import * as S from "./styles";
 
 const NewCycleForm = () => {
-  const { activeCycle } = useContext(CyclesContext);
+  const { activeCycle, cycles } = useContext(CyclesContext);
   const { register } = useFormContext();
 
   return (
@@ -21,11 +21,9 @@ const NewCycleForm = () => {
           {...register("task")}
         />
         <datalist id="task-suggestions">
-          <option value="Projeto 1" />
-          <option value="Projeto 2" />
-          <option value="Projeto 3" />
-          <option value="Projeto 4" />
-          <option value="Projeto 5" />
+          {cycles.map((cycle) => (
+            <option key={cycle.task} value={cycle.task} />
+          ))}
         </datalist>
       </S.InputWrapper>
       <S.InputWrapper>
