@@ -67,6 +67,15 @@ export const TableCell = styled.td`
   }
 `;
 
+export const TableCellEmpty = styled.td`
+  height: 40.8rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  ${({ theme }) => css`
+    background-color: ${theme.colors.gray[700]};
+  `}
+`;
+
 const STATUS_COLORS = {
   green: "green",
   red: "red",

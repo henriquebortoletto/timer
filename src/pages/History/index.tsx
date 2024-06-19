@@ -22,31 +22,38 @@ const History = () => {
             </tr>
           </thead>
           <tbody>
-            {cycles.map((cycle) => (
-              <tr key={cycle.id}>
-                <S.TableCell>{cycle.task}</S.TableCell>
-                <S.TableCell>{cycle.minutesAmount} minutos</S.TableCell>
-                <S.TableCell>
-                  {formatDistanceToNow(cycle.startDate, {
-                    addSuffix: true,
-                    locale: ptBR,
-                  })}
-                </S.TableCell>
-                <S.TableCell>
-                  {cycle.finishedDate && (
-                    <S.Status color="green">Concluído</S.Status>
-                  )}
-
-                  {cycle.interruptedDate && (
-                    <S.Status color="red">Interrompido</S.Status>
-                  )}
-
-                  {!cycle.finishedDate && !cycle.interruptedDate && (
-                    <S.Status color="yellow">Em andamento</S.Status>
-                  )}
-                </S.TableCell>
+            {cycles.length === 0 && (
+              <tr>
+                <S.TableCellEmpty colSpan={4} />
               </tr>
-            ))}
+            )}
+
+            {cycles.length >= 1 &&
+              cycles.map((cycle) => (
+                <tr key={cycle.id}>
+                  <S.TableCell>{cycle.task}</S.TableCell>
+                  <S.TableCell>{cycle.minutesAmount} minutos</S.TableCell>
+                  <S.TableCell>
+                    {formatDistanceToNow(cycle.startDate, {
+                      addSuffix: true,
+                      locale: ptBR,
+                    })}
+                  </S.TableCell>
+                  <S.TableCell>
+                    {cycle.finishedDate && (
+                      <S.Status color="green">Concluído</S.Status>
+                    )}
+
+                    {cycle.interruptedDate && (
+                      <S.Status color="red">Interrompido</S.Status>
+                    )}
+
+                    {!cycle.finishedDate && !cycle.interruptedDate && (
+                      <S.Status color="yellow">Em andamento</S.Status>
+                    )}
+                  </S.TableCell>
+                </tr>
+              ))}
           </tbody>
         </S.Table>
       </S.TableWrapper>
