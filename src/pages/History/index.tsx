@@ -9,7 +9,6 @@ const History = () => {
   return (
     <S.Wrapper>
       <S.Title>Meu histórico</S.Title>
-      <pre>{JSON.stringify(cycles, null, 2)}</pre>
       <S.TableWrapper>
         <S.Table>
           <thead>
@@ -21,62 +20,26 @@ const History = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="yellow">Em andamento</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="red">Interrompido</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="green">Concluído</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="red">Interrompido</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="green">Concluído</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="red">Interrompido</S.Status>
-              </S.TableCell>
-            </tr>
-            <tr>
-              <S.TableCell>Conserto de débitos técnicos</S.TableCell>
-              <S.TableCell>25 minutos</S.TableCell>
-              <S.TableCell>Há cerca de 2 meses</S.TableCell>
-              <S.TableCell>
-                <S.Status color="green">Concluído</S.Status>
-              </S.TableCell>
-            </tr>
+            {cycles.map((cycle) => (
+              <tr key={cycle.id}>
+                <S.TableCell>{cycle.task}</S.TableCell>
+                <S.TableCell>{cycle.minutesAmount} minutos</S.TableCell>
+                <S.TableCell>{cycle.startDate.toISOString()}</S.TableCell>
+                <S.TableCell>
+                  {cycle.finishedDate && (
+                    <S.Status color="green">Concluído</S.Status>
+                  )}
+
+                  {cycle.interruptedDate && (
+                    <S.Status color="red">Interrompido</S.Status>
+                  )}
+
+                  {!cycle.finishedDate && !cycle.interruptedDate && (
+                    <S.Status color="yellow">Em andamento</S.Status>
+                  )}
+                </S.TableCell>
+              </tr>
+            ))}
           </tbody>
         </S.Table>
       </S.TableWrapper>
