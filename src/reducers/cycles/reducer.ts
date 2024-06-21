@@ -1,4 +1,5 @@
-import { ACTIONS } from "./actions";
+import { produce } from "immer";
+import { ACTIONS_TYPE } from "./actions";
 
 export interface Cycle {
   id: string;
@@ -22,36 +23,33 @@ export const initialState: CyclesState = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cyclesReducer(state: CyclesState, action: any) {
   switch (action.type) {
-    case ACTIONS.ADD_NEW_CYCLE:
-      return {
-        ...state,
-        cycles: [...state.cycles, action.payload.newCycle],
-        activeCycleId: action.payload.newCycle.id,
-      };
-    case ACTIONS.INTERRUPT_CURRENT_CYCLE:
-      return {
-        ...state,
-        cycles: state.cycles.map((cycle) => {
-          if (cycle.id === state.activeCycleId) {
-            return { ...cycle, interruptedDate: new Date() };
-          } else {
-            return cycle;
-          }
-        }),
-        activeCycleId: null,
-      };
-    case ACTIONS.MARK_CURRENT_CYCLE_AS_FINISHED:
-      return {
-        ...state,
-        cycles: state.cycles.map((cycle) => {
-          if (cycle.id === state.activeCycleId) {
-            return { ...cycle, finishedDate: new Date() };
-          } else {
-            return cycle;
-          }
-        }),
-        activeCycleId: null,
-      };
+    case ACTIONS_TYPE.ADD_NEW_CYCLE:
+      return produce(state, (draft) => {
+        draft.cycles.push(action.payload.newCycle);
+        draft.activeCycleId = action.payload.newCycle.id;
+      });
+
+    case ACTIONS_TYPE.INTERRUPT_CURRENT_CYCLE:
+      // eslint-disable-next-line no-case-declarations
+      const interruptCurrentCycleIndex = state.cycles.findIndex((cycle) => {
+        return cycle.id === state.activeCycleId;
+      });
+      if (interruptCurrentCycleIndex < 0) return state;
+      return produce(state, (draft) => {
+        draft.cycles[interruptCurrentCycleIndex].interruptedDate = new Date();
+        draft.activeCycleId = null;
+      });
+
+    case ACTIONS_TYPE.MARK_CURRENT_CYCLE_AS_FINISHED:
+      // eslint-disable-next-line no-case-declarations
+      const finishedCurrentCycleIndex = state.cycles.findIndex((cycle) => {
+        return cycle.id === state.activeCycleId;
+      });
+      if (finishedCurrentCycleIndex < 0) return state;
+      return produce(state, (draft) => {
+        draft.cycles[finishedCurrentCycleIndex].finishedDate = new Date();
+        draft.activeCycleId = null;
+      });
     default:
       return state;
   }

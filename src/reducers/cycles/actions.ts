@@ -1,6 +1,6 @@
 import { Cycle } from "./reducer";
 
-export enum ACTIONS {
+export enum ACTIONS_TYPE {
   ADD_NEW_CYCLE = "ADD_NEW_CYCLE",
   INTERRUPT_CURRENT_CYCLE = "INTERRUPT_CURRENT_CYCLE",
   MARK_CURRENT_CYCLE_AS_FINISHED = "MARK_CURRENT_CYCLE_AS_FINISHED",
@@ -8,7 +8,7 @@ export enum ACTIONS {
 
 export function addNewCycleAction(newCycle: Cycle) {
   return {
-    type: ACTIONS.ADD_NEW_CYCLE,
+    type: ACTIONS_TYPE.ADD_NEW_CYCLE,
     payload: {
       newCycle,
     },
@@ -17,12 +17,12 @@ export function addNewCycleAction(newCycle: Cycle) {
 
 export function interruptCurrentCycleAction() {
   return {
-    type: ACTIONS.INTERRUPT_CURRENT_CYCLE,
+    type: ACTIONS_TYPE.INTERRUPT_CURRENT_CYCLE,
   };
 }
 
 export function markCurrentCycleAsFinishedAction() {
   return {
-    type: ACTIONS.MARK_CURRENT_CYCLE_AS_FINISHED,
+    type: ACTIONS_TYPE.MARK_CURRENT_CYCLE_AS_FINISHED,
   };
 }
