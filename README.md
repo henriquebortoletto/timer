@@ -1,5 +1,50 @@
-## Requisitos
+<h2 align="center">
+  <img alt="Capa do projeto" src="./.github/cover.png" width="580px" />
+</h2>
 
-- [ ] Adicionar as acoes de mais e menos no input de selecionar minutos.
-- [ ] Ajustar responsivo do form e do countdown.
-- [ ] Adicionar o scroll do tbody.
+<p align="center">
+  <a href="mailto:bortolettohenrique@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/gmail-red?style=flat&logo=gmail&labelColor=white">
+  </a>
+  <a href="https://www.linkedin.com/in/henriquebortoletto/" target="_blank">
+    <img src="https://img.shields.io/badge/linkedin-blue?style=flat&logo=linkedin&labelColor=blue">
+  </a>
+</p>
+
+---
+
+### Ignite Timer
+
+Projeto simples de pomodoro do bootcamp Ignite com foco em entender e aprofundar
+nos conceitos como `css-in-js`, `routes`, `side-effects`, `controlled e uncontrolled components`, `context api`, `useReducer`, `lazy initialization` e `validacões`.
+
+---
+
+### Tecnologias
+
+- [x] `react-router-dom`
+- [x] `styled-components`
+- [x] `react-hook-form`
+- [x] `zod`
+- [x] `immer`
+- [x] `typescript`
+
+---
+
+### Instalação
+
+```bash
+  # Clonar o repositório
+  $ git clone
+
+  # Entrar no diretório
+  $ cd react-ignite-timer
+
+  # Instalar as dependências
+  $ yarn ou npm install
+
+  # Iniciar o projeto
+  $ yarn dev ou npm run dev
+```
+
+---
