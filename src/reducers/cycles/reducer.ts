@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { ACTIONS_TYPE } from "./actions";
+import { ACTIONS_TYPE, ActionsTypeProps } from "./actions";
 
 export interface Cycle {
   id: string;
@@ -20,7 +20,7 @@ export const initialState: CyclesState = {
   activeCycleId: null,
 };
 
-export function cyclesReducer(state: CyclesState, action: any) {
+export function cyclesReducer(state: CyclesState, action: ActionsTypeProps) {
   switch (action.type) {
     case ACTIONS_TYPE.ADD_NEW_CYCLE:
       return produce(state, (draft) => {
