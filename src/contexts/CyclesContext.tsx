@@ -1,6 +1,13 @@
-import { useState, useReducer, createContext, ReactNode, useEffect } from "react";
+import { useState, useReducer, createContext, useEffect } from "react";
+import { differenceInSeconds } from "date-fns";
 
-import { initialState, cyclesReducer, Cycle, CyclesState } from "@/reducers/cycles/reducer";
+import {
+  initialState,
+  cyclesReducer,
+  Cycle,
+  CyclesState,
+} from "@/reducers/cycles/reducer";
+
 import {
   addNewCycleAction,
   interruptCurrentCycleAction,
@@ -26,26 +33,39 @@ interface CyclesContextType {
 export const CyclesContext = createContext({} as CyclesContextType);
 
 interface CyclesContextProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-function initReducer(initialState: CyclesState): CyclesState {
-  const storageStateAsJSON = localStorage.getItem("@ignite-timer:cycles:v1.0.0");
+function initialReducer(initialState: CyclesState): CyclesState {
+  const storageStateAsJSON = localStorage.getItem(
+    "@ignite-timer:cycles:v1.0.0"
+  );
   if (storageStateAsJSON) return JSON.parse(storageStateAsJSON);
   return initialState;
 }
 
 const CyclesContextProvider = ({ children }: CyclesContextProviderProps) => {
-  const [cyclesState, dispatch] = useReducer(cyclesReducer, initialState, initReducer);
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
+  const [cyclesState, dispatch] = useReducer(
+    cyclesReducer,
+    initialState,
+    initialReducer
+  );
 
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
+    if (!activeCycle) return 0;
+    const initialDifferenceSeconds = differenceInSeconds(
+      new Date(),
+      new Date(activeCycle.startDate)
+    );
+    return initialDifferenceSeconds;
+  });
+
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState);
     localStorage.setItem("@ignite-timer:cycles:v1.0.0", stateJSON);
-    console.log("> [setLocalStorage]");
   }, [cyclesState]);
 
   function createNewCycle(data: CreateCycleData) {
