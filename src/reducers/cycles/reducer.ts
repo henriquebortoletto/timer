@@ -10,7 +10,7 @@ export interface Cycle {
   finishedDate?: Date;
 }
 
-interface CyclesState {
+export interface CyclesState {
   cycles: Cycle[];
   activeCycleId: string | null;
 }
@@ -20,7 +20,6 @@ export const initialState: CyclesState = {
   activeCycleId: null,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cyclesReducer(state: CyclesState, action: any) {
   switch (action.type) {
     case ACTIONS_TYPE.ADD_NEW_CYCLE:

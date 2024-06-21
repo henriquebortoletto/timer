@@ -1,6 +1,6 @@
-import { useState, useReducer, createContext, ReactNode } from "react";
+import { useState, useReducer, createContext, ReactNode, useEffect } from "react";
 
-import { initialState, cyclesReducer, Cycle } from "@/reducers/cycles/reducer";
+import { initialState, cyclesReducer, Cycle, CyclesState } from "@/reducers/cycles/reducer";
 import {
   addNewCycleAction,
   interruptCurrentCycleAction,
@@ -29,12 +29,24 @@ interface CyclesContextProviderProps {
   children: ReactNode;
 }
 
+function initReducer(initialState: CyclesState): CyclesState {
+  const storageStateAsJSON = localStorage.getItem("@ignite-timer:cycles:v1.0.0");
+  if (storageStateAsJSON) return JSON.parse(storageStateAsJSON);
+  return initialState;
+}
+
 const CyclesContextProvider = ({ children }: CyclesContextProviderProps) => {
-  const [cyclesState, dispatch] = useReducer(cyclesReducer, initialState);
+  const [cyclesState, dispatch] = useReducer(cyclesReducer, initialState, initReducer);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
 
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(cyclesState);
+    localStorage.setItem("@ignite-timer:cycles:v1.0.0", stateJSON);
+    console.log("> [setLocalStorage]");
+  }, [cyclesState]);
 
   function createNewCycle(data: CreateCycleData) {
     const createNewCycleId = String(new Date().getTime());

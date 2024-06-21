@@ -22,7 +22,7 @@ const NewCycleForm = () => {
         />
         <datalist id="task-suggestions">
           {cycles.map((cycle) => (
-            <option key={cycle.task} value={cycle.task} />
+            <option key={cycle.id} value={cycle.task} />
           ))}
         </datalist>
       </S.InputWrapper>
