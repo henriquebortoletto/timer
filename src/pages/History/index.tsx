@@ -34,7 +34,7 @@ const History = () => {
                   <S.TableCell>{cycle.task}</S.TableCell>
                   <S.TableCell>{cycle.minutesAmount} minutos</S.TableCell>
                   <S.TableCell>
-                    {formatDistanceToNow(cycle.startDate, {
+                    {formatDistanceToNow(new Date(cycle.startDate), {
                       addSuffix: true,
                       locale: ptBR,
                     })}
