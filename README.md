@@ -13,10 +13,9 @@
 
 ---
 
-### Ignite Timer
+### Timer
 
-Projeto simples de pomodoro do bootcamp Ignite com foco em entender e aprofundar
-nos conceitos como `css-in-js`, `routes`, `side-effects`, `controlled e uncontrolled components`, `context api`, `useReducer`, `lazy initialization` e `validacões`.
+Projeto simples de timer estilo pomodoro com foco em aprofundar nos conceitos como `css-in-js`, `routes`, `side-effects`, `controlled e uncontrolled components`, `context api`, `useReducer`, `lazy initialization` e `validacões`.
 
 ---
 
